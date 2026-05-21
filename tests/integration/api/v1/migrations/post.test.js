@@ -1,3 +1,15 @@
+import database from "infra/database.js";
+import dotenv from "dotenv";
+dotenv.config({ path: ".env.development" });
+
+async function cleanDatabase() {
+  await database.query("DROP SCHEMA public CASCADE; CREATE SCHEMA public;");
+}
+
+beforeAll(async () => {
+  await cleanDatabase();
+});
+
 test("POST /api/v1/migrations should return 200", async () => {
   const response1 = await fetch("http://localhost:3000/api/v1/migrations", {
     method: "POST",
