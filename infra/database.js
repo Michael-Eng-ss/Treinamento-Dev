@@ -28,11 +28,11 @@ async function getNewClient() {
 }
 
 async function getSSLValues() {
-  if (process.env.POSTGRES_HOST === "production") {
-    return true;
+  if (process.env.POSTGRES_HOST === "localhost") {
+    return false;
   }
 
-  return false;
+  return true;
 }
 
 export default {
