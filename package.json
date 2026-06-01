@@ -14,7 +14,8 @@
   "author": "",
   "main": "index.js",
   "scripts": {
-    "dev": "next dev && services:start:d",
+    "dev": "npm run services:start:d && npm run migrations:up && next dev",
+    "dev:remote": "npm run migrations:up:remote && next dev",
     "build": "next build",
     "start": "next start",
     "services:stop": "docker compose -f ./infra/compose.yaml stop",
@@ -30,8 +31,10 @@
     "test:watch": "jest --watchAll  --runInBand",
     "test:coverage": "jest --coverage --runInBand",
     "migrations:create": "node-pg-migrate --migrations-dir ./infra/migrations create",
-    "migrations:up": "node-pg-migrate --migrations-dir ./infra/migrations --envPath .env.development up",
-    "migrations:down": "node-pg-migrate --migrations-dir ./infra/migrations --envPath .env.development down"
+    "migrations:up": "node infra/scripts/wait-for-postgres.js && node-pg-migrate --migrations-dir ./infra/migrations --envPath .env up",
+    "migrations:up:remote": "node-pg-migrate --migrations-dir ./infra/migrations --envPath .env.development up",
+    "migrations:down": "node-pg-migrate --migrations-dir ./infra/migrations --envPath .env down",
+    "migrations:down:remote": "node-pg-migrate --migrations-dir ./infra/migrations --envPath .env.development down"
   },
   "dependencies": {
     "dotenv": "^16.4.4",
