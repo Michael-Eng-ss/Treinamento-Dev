@@ -1,6 +1,6 @@
 import database from "infra/database.js";
 import dotenv from "dotenv";
-dotenv.config({ path: ".env.development" });
+dotenv.config({ path: ".env" });
 
 async function cleanDatabase() {
   await database.query("DROP SCHEMA public CASCADE; CREATE SCHEMA public;  ");
